@@ -1,7 +1,7 @@
 return {
-    battery = require("my-widgets.battery"),
-    clock = require("my-widgets.clock"),
-    newpackages = require("my-widgets.newpackages"),
-    volume = require("my-widgets.volume")
+    battery = require("my-awesome-widgets.battery"),
+    clock = require("my-awesome-widgets.clock"),
+    newpackages = require("my-awesome-widgets.newpackages"),
+    volume = require("my-awesome-widgets.volume")
 }
 
