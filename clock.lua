@@ -2,7 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
-local lookup_icon = require("my-widgets.iconhelper")
+local lookup_icon = require("my-awesome-widgets.iconhelper")
 
 local icon = lookup_icon.lookup_icon('alarm-symbolic')
 

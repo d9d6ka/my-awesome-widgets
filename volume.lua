@@ -2,7 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
-local lookup_icon = require("my-widgets.iconhelper")
+local lookup_icon = require("my-awesome-widgets.iconhelper")
 
 local function pulse_detect()
     local status = os.execute("command -v pactl")

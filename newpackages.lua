@@ -2,7 +2,7 @@ local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
 
-local lookup_icon = require("my-widgets.iconhelper")
+local lookup_icon = require("my-awesome-widgets.iconhelper")
 
 local function identify_distro()
     local f = assert(io.popen([[cat /etc/os-release | grep '^ID=' | awk 'BEGIN {FS="="} {print $2}' | sed -e 's/^"//' -e 's/"$//']]))
@@ -38,7 +38,7 @@ local function creator(user_args)
     local args = user_args or {}
     local timeout = args.timeout or 900
     local distro = args.distro or identify_distro()
-    local config = args.config or "~/.config/awesome/my-widgets/newpackages.conf"
+    local config = args.config or "~/.config/awesome/my-awesome-widgets/newpackages.conf"
     config = config:gsub("^~", os.getenv("HOME"))
 
     local commands = parse_config(config)
