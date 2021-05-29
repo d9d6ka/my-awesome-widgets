@@ -66,8 +66,8 @@ local function creator(user_args)
     
     function newpackages_widget:update()
         awful.spawn.easy_async('sh -c "' .. command .. '"', function (stdout)
-            self.iconcontainer.icon:set_image(((stdout == "0\n") and icons.uptodate or icons.updates):load_surface())
             self.text:set_text(stdout)
+            self.iconcontainer.icon:set_image(((stdout == "0\n") and icons.uptodate or icons.updates):load_surface())
             self:emit_signal("widget::redraw_needed")
         end)
     end

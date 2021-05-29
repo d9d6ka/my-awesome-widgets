@@ -9,12 +9,12 @@ local icon = lookup_icon.lookup_icon('alarm-symbolic')
 local function creator(user_args)
     local clock_widget = wibox.widget {
         {
+            id = "iconcontainer",
             top = 4,
             bottom = 4,
             layout = wibox.container.margin,
-            id = 'iconcontainer',
             {
-                id = 'icon',
+                id = "icon",
                 resize = true,
                 image = icon:load_surface(),
                 widget = wibox.widget.imagebox

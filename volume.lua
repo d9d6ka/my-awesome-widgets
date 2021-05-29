@@ -81,8 +81,8 @@ local function creator(user_args)
                 text = level
             end
 
-            self.iconcontainer.icon:set_image(icon:load_surface())
             self.text:set_text(text or "")
+            self.iconcontainer.icon:set_image(icon:load_surface())
             self:emit_signal("widget::redraw_needed")
         end)
     end

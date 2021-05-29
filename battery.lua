@@ -47,21 +47,18 @@ local function creator(user_args)
 
     local battery_widget = wibox.widget {
         {
-            valign = 'center',
-            layout = wibox.container.place,
+            id = "iconcontainer",
+            top = 4,
+            bottom = 4,
+            layout = wibox.container.margin,
             {
-                top = 4,
-                bottom = 4,
-                layout = wibox.container.margin,
-                {
-                    id = 'icon',
-                    resize = true,
-                    widget = wibox.widget.imagebox
-                }
+                id = "icon",
+                resize = true,
+                widget = wibox.widget.imagebox
             }
         },
         {
-            id = 'text',
+            id = "text",
             widget = wibox.widget.textbox
         },
         spacing = 4,
@@ -81,7 +78,7 @@ local function creator(user_args)
         end
         self.tooltip_text = popup
         self.text:set_text((percent ~= "") and percent .. "%" or "")
-        self:get_children_by_id("icon")[1]:set_image(icon:load_surface())
+        self.iconcontainer.icon:set_image(icon:load_surface())
         self:emit_signal("widget::redraw_needed")
     end
     
