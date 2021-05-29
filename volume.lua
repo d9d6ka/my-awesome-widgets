@@ -21,16 +21,17 @@ local function creator(user_args)
     local daemon = args.daemon or pulse_detect()
     local device = args.device or ((daemon == "pulse") and "0" or "Master")
     if type(device) ~= "string" then device = tostring(device) end
+    local step = args.step or 5
     local command = {}
     if daemon == "pulse" then
         command.get = "pacmd list-sinks | sed -n -e '/index/p;/base volume/d;/volume:/p;/muted:/p;/device\\.string/p'"
-        command.dec = "pactl set-sink-volume " .. device .. " -5%"
-        command.inc = "pactl set-sink-volume " .. device .. " +5%"
+        command.dec = "pactl set-sink-volume " .. device .. " -" .. step .. "%"
+        command.inc = "pactl set-sink-volume " .. device .. " +" .. step .. "%"
         command.mut = "pactl set-sink-mute "   .. device .. " toggle"
     else
         command.get = "amixer sget " .. device
-        command.dec = "amixer sset " .. device .. " 5%-"
-        command.inc = "amixer sset " .. device .. " 5%+"
+        command.dec = "amixer sset " .. device .. " " .. step .. "%-"
+        command.inc = "amixer sset " .. device .. " " .. step .. "%+"
         command.mut = "amixer sset " .. device .. " toggle"
     end
     local timeout = args.timeout or 5
