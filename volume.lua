@@ -21,17 +21,18 @@ local function creator(user_args)
     local daemon = args.daemon or pulse_detect()
     local device = args.device or ((daemon == "pulse") and "0" or "Master")
     if type(device) ~= "string" then device = tostring(device) end
-    local step = args.step or 5
+    local step = args.step or 1
+    local jump = args.jump or (step * 5)
     local command = {}
     if daemon == "pulse" then
         command.get = "pacmd list-sinks | sed -n -e '/index/p;/base volume/d;/volume:/p;/muted:/p;/device\\.string/p'"
-        command.dec = "pactl set-sink-volume " .. device .. " -" .. step .. "%"
-        command.inc = "pactl set-sink-volume " .. device .. " +" .. step .. "%"
+        command.dec = "pactl set-sink-volume " .. device .. " -%s%%"
+        command.inc = "pactl set-sink-volume " .. device .. " +%s%%"
         command.mut = "pactl set-sink-mute "   .. device .. " toggle"
     else
         command.get = "amixer sget " .. device
-        command.dec = "amixer sset " .. device .. " " .. step .. "%-"
-        command.inc = "amixer sset " .. device .. " " .. step .. "%+"
+        command.dec = "amixer sset " .. device .. " %s%%-"
+        command.inc = "amixer sset " .. device .. " %s%%+"
         command.mut = "amixer sset " .. device .. " toggle"
     end
     local timeout = args.timeout or 5
@@ -87,14 +88,14 @@ local function creator(user_args)
         end)
     end
     
-    function volume_widget:dec()
-        awful.spawn.easy_async(command.dec, function ()
+    function volume_widget:dec(s)
+        awful.spawn.easy_async(command.dec:format(s), function ()
             self:update()
         end)
     end
 
-    function volume_widget:inc()
-        awful.spawn.easy_async(command.inc, function ()
+    function volume_widget:inc(s)
+        awful.spawn.easy_async(command.inc:format(s), function ()
             self:update()
         end)
     end
@@ -110,10 +111,16 @@ local function creator(user_args)
             volume_widget:mut()
         end),
         awful.button({}, 5, nil, function ()
-            volume_widget:inc()
+            volume_widget:inc(step)
+        end),
+        awful.button({ "Shift" }, 5, nil, function ()
+            volume_widget:inc(jump)
         end),
         awful.button({}, 4, nil, function ()
-            volume_widget:dec()
+            volume_widget:dec(step)
+        end),
+        awful.button({ "Shift" }, 4, nil, function ()
+            volume_widget:dec(jump)
         end)
     ))
     

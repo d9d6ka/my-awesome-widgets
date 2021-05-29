@@ -11,7 +11,7 @@
    ```
 3. Create desired widget (e.g. newpackages):
    ```lua
-   newpackages = my_widgets.newpackages(optional args in {})
+   newpackages = my_widgets.newpackages(<optional args in {}>)
    ```
 4. Add widget to wibar.
 
@@ -46,9 +46,11 @@ Optional arguments:
 - `timeout`: widget update time in seconds, default is 5
 - `daemon`: alsa or pulse, autodetected by default
 - `device`: ALSA device or PulseAudio sink number, "Master" and "0" by default
-- `step` : volume change step, default is 5
+- `step` : volume change step, default is 1
+- `jump` : volume change bigger step, default is `step * 5`
 
 Mouse actions:
 - Right click: Toggle mute
 - Wheel up/down: volume up/down
+- Shift + wheel up/down: volume up/down, bigger step
 
