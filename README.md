@@ -35,6 +35,9 @@ Optional arguments:
 - `distro`: Your distro ID, autodetected by default
 - `config`: custom path to `newpackages.conf` file
 
+Mouse actions:
+- Left click: force update of the widget
+
 ## Volume widget
 
 Supports both ALSA (via `amixer`) and PulseAudio (via `pactl`).
@@ -43,4 +46,9 @@ Optional arguments:
 - `timeout`: widget update time in seconds, default is 5
 - `daemon`: alsa or pulse, autodetected by default
 - `device`: ALSA device or PulseAudio sink number, "Master" and "0" by default
+- `step` : volume change step, default is 5
+
+Mouse actions:
+- Right click: Toggle mute
+- Wheel up/down: volume up/down
 
