@@ -18,19 +18,21 @@ local function battery_status(s)
     local is_charging = false
     local popup_text = ""
     for line in input:gmatch("[^\r\n]*") do
-        status, charge, time = line:match(".*: (%a*), (%d*%d)%%,?(.*)")
-        if status ~= nil then
-            if time ~= "" then
-                time = time:match("%D*(%d%d:%d%d).*")
+        if line ~= "" then
+            status, charge, time = line:match(".*: (%a*), (%d*%d)%%,?(.*)")
+            if status ~= nil then
+                if time ~= "" then
+                    time = time:match("%D*(%d%d:%d%d).*")
+                end
+                table.insert(batteries, {
+                    status = status,
+                    charge = tonumber(charge),
+                    time = time or ""
+                })
+            else
+                capacity = line:match(".*, last full capacity (%d*).*")
+                batteries[#batteries].capacity = tonumber(capacity)
             end
-            table.insert(batteries, {
-                status = status,
-                charge = tonumber(charge),
-                time = time or ""
-            })
-        else
-            capacity = line:match(".*, last full capacity (%d*).*")
-            batteries[#batteries].capacity = tonumber(capacity)
         end
     end
     for _, battery in pairs(batteries) do
@@ -99,7 +101,7 @@ local function creator(user_args)
         autostart = true,
         callback = function()
             awful.spawn.easy_async_with_shell([[acpi -i]], function (stdout)
-                battery_widget:update(stdout)
+                battery_widget:update(stdout or "")
             end)
         end
     }
