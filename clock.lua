@@ -1,7 +1,9 @@
 local awful = require("awful")
 local wibox = require("wibox")
 local gears = require("gears")
+local xresources = require("beautiful.xresources")
 
+local dpi = xresources.apply_dpi
 local lookup_icon = require("my-awesome-widgets.iconhelper")
 
 local icon = lookup_icon.lookup_icon('alarm-symbolic')
@@ -10,8 +12,8 @@ local function creator(user_args)
     local clock_widget = wibox.widget {
         {
             id = "iconcontainer",
-            top = 4,
-            bottom = 4,
+            top = dpi(2),
+            bottom = dpi(2),
             layout = wibox.container.margin,
             {
                 id = "icon",
@@ -24,7 +26,7 @@ local function creator(user_args)
             format = "%H:%M",
             widget = wibox.widget.textclock
         },
-        spacing = 4,
+        spacing = dpi(4),
         layout = wibox.layout.fixed.horizontal
     }
 
